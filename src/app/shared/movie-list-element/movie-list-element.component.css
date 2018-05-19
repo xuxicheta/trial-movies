@@ -1,0 +1,8 @@
+.element-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.element-title-link:hover {
+  text-decoration: underline;
+}

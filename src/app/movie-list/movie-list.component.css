@@ -1,0 +1,12 @@
+.search-form {
+  display: flex;
+  width: 60%;
+}
+
+.search-form input {
+  flex: auto;
+  margin-right: 10px;
+}
+.search-form button {
+  flex: none;
+}

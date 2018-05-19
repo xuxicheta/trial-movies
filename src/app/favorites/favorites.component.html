@@ -1,0 +1,8 @@
+<div class="favorites-page" *ngIf="favs.length > 0">
+  <div *ngFor="let fav of favs">
+    <app-movie-list-element *ngIf="lib[fav]" [element]="lib[fav]"></app-movie-list-element>
+  </div>
+</div>
+<div class="favorites-page" *ngIf="favs.length == 0">
+  <h6 class="subheading-1" style="padding-left: 20px">You haven't favorites yet</h6>
+</div>
