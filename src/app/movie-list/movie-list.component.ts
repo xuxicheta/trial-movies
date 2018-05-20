@@ -1,6 +1,8 @@
+import { ApiService } from '../services/api.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ApiService } from '../services/api.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -33,12 +35,12 @@ export class MovieListComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onSearchSubmit(event: any) {
+  onSearchSubmit(event: Event) {
     event.preventDefault();
     this.getResults();
   }
 
-  onPage(event: any) {
+  onPage(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.getResults();
   }
@@ -60,8 +62,8 @@ export class MovieListComponent implements OnInit, OnDestroy {
     });
   }
 
-  autoCompleteSelected(ev) {
-    this.query.setValue(ev.option.value);
+  autoCompleteSelected(event: MatAutocompleteSelectedEvent) {
+    this.query.setValue(event.option.value);
     this.getResults();
   }
 }
