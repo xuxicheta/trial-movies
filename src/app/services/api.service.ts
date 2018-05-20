@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as theMovieDb from 'themoviedb-javascript-library';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
