@@ -12,8 +12,8 @@
 }
 
 .loading-wrapper {
-  width: 100vw;
-  height: 50vh;
+  width: 100%;
+  height: calc(100% - 285px);
   display: flex;
   justify-content: center;
   align-content: space-between;

@@ -56,7 +56,7 @@ export class FavoritesService {
     return false;
   }
   getFavorites() {
-    return this.favs$;
+    return this.favs$.asObservable();
   }
   getElement$(id: number) {
     return this._map.get(id);

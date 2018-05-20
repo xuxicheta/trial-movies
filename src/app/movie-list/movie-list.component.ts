@@ -11,9 +11,9 @@ import { Subscription } from 'rxjs';
 export class MovieListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   length: number;
-  loading: boolean;
+  loading = false;
   options: string[];
-  page: number;
+  pageIndex = 0;
   query = new FormControl();
   results: any[] = [];
   totalPages: number;
@@ -39,17 +39,16 @@ export class MovieListComponent implements OnInit, OnDestroy {
   }
 
   onPage(event: any) {
-    this.page = event.pageIndex + 1;
+    this.pageIndex = event.pageIndex;
     this.getResults();
   }
 
   getResults() {
     this.loading = true;
-    this.api$.search(this.query.value, `${this.page}`)
+    this.api$.search(this.query.value, `${this.pageIndex + 1}`)
       .subscribe((response: any) => {
         this.loading = false;
         this.results = response.results;
-        this.page = response.page;
         this.totalPages = response.total_pages;
         this.length = response.total_results;
       });
@@ -61,4 +60,8 @@ export class MovieListComponent implements OnInit, OnDestroy {
     });
   }
 
+  autoCompleteSelected(ev) {
+    this.query.setValue(ev.option.value);
+    this.getResults();
+  }
 }

@@ -1,7 +1,7 @@
 <mat-card>
   <form (submit)="onSearchSubmit($event)" class="search-form">
     <input matInput [formControl]="query" (input)="onQueryInput()" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="autoCompleteSelected($event)">
       <mat-option *ngFor="let option of options" [value]="option">
         {{ option }}
       </mat-option>
@@ -12,16 +12,17 @@
   </form>
 </mat-card>
 
-<mat-card *ngIf="results.length > 0 && !loading">
-  <mat-paginator [length]="length" [pageSize]="20" (page)="onPage($event)">
-  </mat-paginator>
-  <app-movie-list-element *ngFor="let element of results" [element]="element">
+<mat-card *ngIf="results.length > 0">
+  <mat-paginator [length]="length" [pageSize]="20" [pageIndex]="pageIndex" (page)="onPage($event)"></mat-paginator>
 
-  </app-movie-list-element>
-  <mat-paginator [length]="length" [pageSize]="20" (page)="onPage($event)">
-  </mat-paginator>
+  <div *ngIf="!loading">
+    <app-movie-list-element *ngFor="let element of results" [element]="element"></app-movie-list-element>
+  </div>
+  <div class="loading-wrapper" *ngIf="loading">
+    <mat-spinner ></mat-spinner>
+  </div>
+  
+  <mat-paginator *ngIf="!loading" [length]="length" [pageSize]="20" [pageIndex]="pageIndex" (page)="onPage($event)"></mat-paginator>
 </mat-card>
 
-<div class="loading-wrapper" *ngIf="loading">
-  <mat-spinner ></mat-spinner>
-</div>
+
