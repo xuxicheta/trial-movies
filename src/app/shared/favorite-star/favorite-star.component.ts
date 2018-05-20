@@ -17,7 +17,7 @@ export class FavoriteStarComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges(changeRecord) {
+  ngOnChanges() {
     this.isFavorite = this.favorites$.isInFavor(this.id);
   }
 

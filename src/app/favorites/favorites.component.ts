@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 })
 export class FavoritesComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  lib: any;
   favs: number[] = [];
 
   constructor(
@@ -19,17 +18,17 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.favorites$.restore();
+    this.favorites$.fetch();
     this.subscription.add(
       this.favorites$.getFavorites().subscribe(favs => this.favs = favs),
     ); // favs
-    this.subscription.add(
-      this.favorites$.getLibrary().subscribe(lib => this.lib = lib)
-    );
-    this.favorites$.restore();
-    this.favorites$.fetch();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+  element(id: number) {
+    return this.favorites$.getElement$(id);
   }
 
 }

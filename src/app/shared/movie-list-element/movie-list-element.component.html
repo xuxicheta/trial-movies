@@ -5,7 +5,7 @@
     </div>
     <div class="element-info">
       <mat-card-title>
-        <a routerLink="/details/{{element.id}}" class="element-title-link">{{ element?.title }} </a>
+        <a routerLink="/details/{{element?.id}}" class="element-title-link">{{ element?.title }} </a>
         <app-favorite-star [id]="element?.id"></app-favorite-star>
       </mat-card-title>
       <mat-card-content> {{ element?.overview }} </mat-card-content>

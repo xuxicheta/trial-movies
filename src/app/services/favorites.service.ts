@@ -7,15 +7,13 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class FavoritesService {
-  private lib$ = new BehaviorSubject<any>({}); // map of favorites
-  private lib: any;
   private favs$ = new BehaviorSubject<number[]>([]);
   private favs: number[];
+  private _map = new Map();
 
   constructor(
     private api$: ApiService,
   ) {
-    this.lib$.subscribe(lib => this.lib = lib);
     this.favs$.subscribe(favs => this.favs = favs);
   }
   save() {
@@ -29,37 +27,39 @@ export class FavoritesService {
   }
 
   fetch() {
-    this.favs.forEach(fav => {
-      if (!this.lib[fav]) {
-        this.api$.movie(fav).subscribe(movie => {
-          this.lib[fav] = movie;
-          this.lib$.next(this.lib);
-        });
-      }
+    this.favs.forEach(id => {
+      const element = new BehaviorSubject<any>({});
+      this._map.set(id, element);
+      this.api$.movie(id).subscribe(movie => element.next(movie));
     });
   }
 
   add(id: number) {
     this.favs.push(id);
     this.favs$.next(this.favs);
-    this.fetch();
+
+    const element = new BehaviorSubject<any>({});
+    this._map.set(id, element);
+    this.api$.movie(id).subscribe(movie => element.next(movie));
     this.save();
   }
+
   remove(id: number) {
     const index = this.favs.indexOf(id);
-    if (index === -1) {
-      return false;
+    if (index !== -1) {
+      this.favs.splice(index, 1);
+      this.favs$.next(this.favs);
+      this._map.delete(id);
+      this.save();
+      return true;
     }
-    this.favs.splice(index, 1);
-    this.favs$.next(this.favs);
-    this.save();
-    return true;
+    return false;
   }
   getFavorites() {
     return this.favs$;
   }
-  getLibrary() {
-    return this.lib$;
+  getElement$(id: number) {
+    return this._map.get(id);
   }
   isInFavor(id) {
     return this.favs.indexOf(id) !== -1;

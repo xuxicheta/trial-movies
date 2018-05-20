@@ -1,6 +1,6 @@
 <div class="favorites-page" *ngIf="favs.length > 0">
-  <div *ngFor="let fav of favs">
-    <app-movie-list-element *ngIf="lib[fav]" [element]="lib[fav]"></app-movie-list-element>
+  <div *ngFor="let id of favs">
+    <app-movie-list-element [element]="element(id) | async"></app-movie-list-element>
   </div>
 </div>
 <div class="favorites-page" *ngIf="favs.length == 0">
