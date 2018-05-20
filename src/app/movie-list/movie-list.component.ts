@@ -10,11 +10,12 @@ import { Subscription } from 'rxjs';
 })
 export class MovieListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  query = new FormControl();
-  results: any[] = [];
+  length: number;
+  loading: boolean;
   options: string[];
   page: number;
-  length: number;
+  query = new FormControl();
+  results: any[] = [];
   totalPages: number;
 
   constructor(
@@ -43,8 +44,10 @@ export class MovieListComponent implements OnInit, OnDestroy {
   }
 
   getResults() {
+    this.loading = true;
     this.api$.search(this.query.value, `${this.page}`)
       .subscribe((response: any) => {
+        this.loading = false;
         this.results = response.results;
         this.page = response.page;
         this.totalPages = response.total_pages;

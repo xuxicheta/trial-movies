@@ -12,10 +12,11 @@ import { Subscription } from 'rxjs';
 export class MovieDetalisComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private imgPrefix = 'https://image.tmdb.org/t/p/w300/';
-  error;
-  posterSrc: string;
-  movie: any;
   cast: any[];
+  error: boolean;
+  loading: boolean;
+  movie: any;
+  posterSrc: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,10 +26,12 @@ export class MovieDetalisComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const route_sub = this.route.params.subscribe(params => {
       if (params.id) {
+        this.loading = true;
         this.api$.movie(params.id).subscribe({
           next: (movie: any) => {
-          this.movie = movie;
-          this.posterSrc = this.imgPrefix + movie.poster_path;
+            this.loading = false;
+            this.movie = movie;
+            this.posterSrc = this.imgPrefix + movie.poster_path;
           },
           error: (error) => {
             this.error = true;

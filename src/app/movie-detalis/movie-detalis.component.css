@@ -38,3 +38,12 @@
   color: gold;
   font-size: 1.2em;
 }
+
+.loading-wrapper {
+  width: 100vw;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+  align-items: center;
+}
