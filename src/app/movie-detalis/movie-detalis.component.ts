@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class MovieDetalisComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private imgPrefix = 'https://image.tmdb.org/t/p/w300/';
+  error;
   posterSrc: string;
   movie: any;
   cast: any[];
@@ -24,13 +25,23 @@ export class MovieDetalisComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const route_sub = this.route.params.subscribe(params => {
       if (params.id) {
-        this.api$.movie(params.id).subscribe((movie: any) => {
+        this.api$.movie(params.id).subscribe({
+          next: (movie: any) => {
           this.movie = movie;
           this.posterSrc = this.imgPrefix + movie.poster_path;
+          },
+          error: (error) => {
+            this.error = true;
+          }
         });
 
-        this.api$.credits(params.id).subscribe((credits: any) => {
-          this.cast = credits.cast;
+        this.api$.credits(params.id).subscribe({
+          next: (credits: any) => {
+            this.cast = credits.cast;
+          },
+          error: (error) => {
+            this.cast = [];
+          }
         });
       }
     });
