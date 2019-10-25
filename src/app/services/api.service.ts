@@ -6,7 +6,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiKey = '526a2f059c5450afa042042af5b00c00';
+  private apiKey = '';
 
   constructor(
     private  http: HttpClient,
